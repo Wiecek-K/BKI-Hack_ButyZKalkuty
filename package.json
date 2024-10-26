@@ -6,7 +6,9 @@
     "dev": "next dev -p 2137",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.66",
@@ -21,6 +23,7 @@
     "daisyui": "^4.12.13",
     "lucide-react": "^0.451.0",
     "next": "14.2.15",
+    "prisma": "^5.21.1",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.5.3",
