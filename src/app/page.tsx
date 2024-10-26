@@ -1,102 +1,135 @@
-import Image from 'next/image';
-import { UserButton } from '@clerk/nextjs';
+'use client'
+import { useState, useEffect } from 'react';
+import { addResource, addNeed, getResourcesAndNeeds } from '@/actions/resourceNeedHandler';
 
-export default async function Home() {
+export default function Home() {
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('OTHER');
+  const [location, setLocation] = useState('');
+  const [contactInfo, setContactInfo] = useState({ name: '', phone: '' });
+  const [type, setType] = useState('RESOURCE');
+  const [entries, setEntries] = useState({ resources: [], needs: [] });
+
+  useEffect(() => {
+    loadEntries();
+  }, []);
+
+  const loadEntries = async () => {
+    const data = await getResourcesAndNeeds();
+    setEntries(data);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const data = { description, category, location, contactInfo };
+    if (type === 'RESOURCE') {
+      await addResource(data);
+    } else {
+      await addNeed(data);
+    }
+    setDescription('');
+    setCategory('OTHER');
+    setLocation('');
+    setContactInfo({ name: '', phone: '' });
+    loadEntries();
+  };
+
   return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-8 sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 sm:p-20">
+      <h2 className="text-xl font-semibold">Zarządzaj Zgłoszeniami</h2>
+      
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <select value={type} onChange={(e) => setType(e.target.value)} className="p-2 border rounded">
+          <option value="RESOURCE">Zasób</option>
+          <option value="NEED">Potrzeba</option>
+        </select>
+        <textarea
+          placeholder="Opis zgłoszenia"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+          className="p-2 border rounded"
         />
-        <ol className="list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm sm:text-left">
-          <li className="mb-2">
-            Get started by editing{' '}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-semibold dark:bg-white/[.06]">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-        <UserButton afterSwitchSessionUrl="/" />
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent bg-foreground px-4 text-sm text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] sm:h-12 sm:px-5 sm:text-base"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm transition-colors hover:border-transparent hover:bg-[#f2f2f2] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] sm:h-12 sm:min-w-44 sm:px-5 sm:text-base"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <select value={category} onChange={(e) => setCategory(e.target.value)} className="p-2 border rounded">
+          <option value="FOOD_AND_WATER">Żywność i woda</option>
+          <option value="MEDICINE">Leki</option>
+          <option value="CLOTHING_AND_BLANKETS">Odzież i koce</option>
+          <option value="TRANSPORT_AND_LOGISTICS">Transport i logistyka</option>
+          <option value="CHEMICALS">Środki chemiczne</option>
+          <option value="BUILDING_MATERIALS">Materiały budowlane</option>
+          <option value="TOOLS_AND_EQUIPMENT">Sprzęt i narzędzia</option>
+          <option value="INFORMATION_AND_COMMUNICATION">Informacja i komunikacja</option>
+          <option value="PSYCHOLOGICAL_AND_LEGAL_SUPPORT">Wsparcie psychologiczne i prawne</option>
+          <option value="OTHER">Inne</option>
+        </select>
+        <input
+          placeholder="Lokalizacja"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="p-2 border rounded"
+        />
+        <input
+          placeholder="Imię kontaktowe"
+          value={contactInfo.name}
+          onChange={(e) => setContactInfo({ ...contactInfo, name: e.target.value })}
+          required
+          className="p-2 border rounded"
+        />
+        <input
+          placeholder="Telefon kontaktowy"
+          value={contactInfo.phone}
+          onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
+          required
+          className="p-2 border rounded"
+        />
+        <button type="submit" className="p-2 bg-blue-500 text-white rounded">Dodaj zgłoszenie</button>
+      </form>
+
+      <div className="w-full max-w-3xl mt-8">
+        <h3 className="text-lg font-semibold mb-4">Zasoby</h3>
+        <table className="w-full border border-collapse">
+          <thead>
+            <tr>
+              <th className="border p-2">Opis</th>
+              <th className="border p-2">Kategoria</th>
+              <th className="border p-2">Lokalizacja</th>
+              <th className="border p-2">Kontakt</th>
+            </tr>
+          </thead>
+          <tbody>
+            {entries.resources.map((resource) => (
+              <tr key={resource.id}>
+                <td className="border p-2">{resource.description}</td>
+                <td className="border p-2">{resource.category}</td>
+                <td className="border p-2">{resource.location}</td>
+                <td className="border p-2">{resource.contactInfo.name} ({resource.contactInfo.phone})</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h3 className="text-lg font-semibold mt-8 mb-4">Potrzeby</h3>
+        <table className="w-full border border-collapse">
+          <thead>
+            <tr>
+              <th className="border p-2">Opis</th>
+              <th className="border p-2">Kategoria</th>
+              <th className="border p-2">Lokalizacja</th>
+              <th className="border p-2">Kontakt</th>
+            </tr>
+          </thead>
+          <tbody>
+            {entries.needs.map((need) => (
+              <tr key={need.id}>
+                <td className="border p-2">{need.description}</td>
+                <td className="border p-2">{need.category}</td>
+                <td className="border p-2">{need.location}</td>
+                <td className="border p-2">{need.contactInfo.name} ({need.contactInfo.phone})</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
