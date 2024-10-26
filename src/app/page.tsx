@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState, useEffect } from 'react';
 import { addResource, addNeed, getResourcesAndNeeds } from '@/actions/resourceNeedHandler';
 
@@ -37,9 +37,13 @@ export default function Home() {
   return (
     <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 sm:p-20">
       <h2 className="text-xl font-semibold">Zarządzaj Zgłoszeniami</h2>
-      
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <select value={type} onChange={(e) => setType(e.target.value)} className="p-2 border rounded">
+        <select
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+          className="rounded border p-2"
+        >
           <option value="RESOURCE">Zasób</option>
           <option value="NEED">Potrzeba</option>
         </select>
@@ -48,9 +52,13 @@ export default function Home() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
-          className="p-2 border rounded"
+          className="rounded border p-2"
         />
-        <select value={category} onChange={(e) => setCategory(e.target.value)} className="p-2 border rounded">
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="rounded border p-2"
+        >
           <option value="FOOD_AND_WATER">Żywność i woda</option>
           <option value="MEDICINE">Leki</option>
           <option value="CLOTHING_AND_BLANKETS">Odzież i koce</option>
@@ -66,26 +74,29 @@ export default function Home() {
           placeholder="Lokalizacja"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="p-2 border rounded"
+          className="rounded border p-2"
         />
         <input
           placeholder="Imię kontaktowe"
           value={contactInfo.name}
           onChange={(e) => setContactInfo({ ...contactInfo, name: e.target.value })}
           required
-          className="p-2 border rounded"
+          className="rounded border p-2"
         />
         <input
           placeholder="Telefon kontaktowy"
           value={contactInfo.phone}
           onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
           required
-          className="p-2 border rounded"
+          className="rounded border p-2"
         />
-        <button type="submit" className="p-2 bg-blue-500 text-white rounded">Dodaj zgłoszenie</button>
+        <button type="submit" className="rounded bg-blue-500 p-2 text-white">
+          Dodaj zgłoszenie
+        </button>
       </form>
 
-      <div className="w-full max-w-3xl mt-8">
+      <div className="w-full bg-orange-600">SIEMA</div>
+      {/* <div className="w-full max-w-3xl mt-8">
         <h3 className="text-lg font-semibold mb-4">Zasoby</h3>
         <table className="w-full border border-collapse">
           <thead>
@@ -129,7 +140,7 @@ export default function Home() {
             ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   );
 }
