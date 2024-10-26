@@ -1,34 +1,31 @@
 import React from 'react';
 import Image from 'next/image';
-import aidhub from '@/components/ui/aidhub.png'
+import aidhub from '../components/ui/aidhub.png'
 import { Phone, Heart } from 'lucide-react';
 
 const Page = () => {
   return (
-    <div className="text-textgray flex min-h-screen w-full flex-col items-center border bg-neutral-50 pb-4 md:w-[450px]">
-      <main className="flex w-full flex-grow flex-col items-start justify-between gap-8 p-4">
-        <div className="border-lg h-[380px] w-full rounded border">
-          <MapComponent />
+    <div className="text-textgray flex min-h-screen w-full flex-col items-center bg-neutral-50 p-4 pb-16 md:w-[500px]">
+      <main className="flex w-full flex-grow flex-col items-center justify-center gap-4">
+        <div className="relative mb-2 overflow-hidden rounded-full bg-blue-50 p-6">
+          <Image
+            src={aidhub}
+            alt="AidHub Logo"
+            width={200}
+            height={200}
+            className="h-auto w-auto p-2 transition-transform duration-300 hover:scale-105"
+            priority
+          />
         </div>
+        <h1 className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-center text-3xl font-bold tracking-tight text-transparent md:text-4xl">
+          Łączymy Potrzeby z Zasobami
+        </h1>
 
-        <div className="flex w-full flex-grow gap-4">
-          <div className="w-1/2">
-            <h2 className="mb-2 text-lg font-bold">Zasoby</h2>
-            <div className="scrollbar-hidden max-h-[370px] overflow-y-auto py-2">
-              {zasoby.length > 0 ? (
-                zasoby.map((zasob) => (
-                  <ListItem
-                    key={zasob.id}
-                    id={zasob.id}
-                    title={`Tel: ${zasob.telefon}`}
-                    description={zasob.nazwa}
-                    isSelected={selectedZasoby.has(zasob.id)}
-                    onToggle={handleZasobToggle}
-                  />
-                ))
-              ) : (
-                <p className="p-16 text-center">Brak dodanych zasobów</p>
-              )}
+        <div className="grid w-full gap-4 md:grid-cols-2">
+          <div className="rounded-lg bg-blue-50 p-6">
+            <div className="mb-3 flex items-center gap-2">
+              <Heart className="h-5 w-5 text-blue-600" />
+              <h3 className="font-semibold">Potrzebna Pomoc?</h3>
             </div>
             <p className="text-sm text-gray-600">
               Skontaktuj się z nami, a połączymy Cię z osobami chętnymi do pomocy.
