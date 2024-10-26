@@ -18,7 +18,7 @@ enum crdb_internal_region {
 model Resource {
   id          String           @id @default(cuid())
   description String
-  category    ResourceCategory
+  category    String
   location    String?
   phoneNumber Int
   createdAt   DateTime         @default(now())
@@ -28,24 +28,11 @@ model Resource {
 model Need {
   id          String           @id @default(cuid())
   description String
-  category    ResourceCategory
+  category    String
   location    String?
   phoneNumber Int
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
-}
-
-enum ResourceCategory {
-  FOOD_AND_WATER
-  MEDICINE
-  CLOTHING_AND_BLANKETS
-  TRANSPORT_AND_LOGISTICS
-  CHEMICALS
-  BUILDING_MATERIALS
-  TOOLS_AND_EQUIPMENT
-  INFORMATION_AND_COMMUNICATION
-  PSYCHOLOGICAL_AND_LEGAL_SUPPORT
-  OTHER
 }
 
 model SmsData {
