@@ -47,3 +47,14 @@ enum ResourceCategory {
   PSYCHOLOGICAL_AND_LEGAL_SUPPORT
   OTHER
 }
+
+model SmsData {
+  id          String @id @default(cuid())
+  body        String
+  from        String
+  fromCountry String
+  fromState   String
+  fromCity    String
+  fromZip     String
+  receivedAt  DateTime @default(now())
+}
