@@ -75,15 +75,14 @@ async function callOpenAIAPI(
   country: string,
   zip: string,
 ) {
-  console.log("\n\n\nTESTTESTTEST\n\n\n");
-  console.log("\n\n\nTESTTESTTEST\n\n\n");
-  console.log("\n\n\nTESTTESTTEST\n\n\n");
   
   const isAResource = await checkIfItsAResource(body);
+  console.log(`\n\nISARESOURCE\n${isAResource}\n\n`);
   const schemaToParse = isAResource ? ResourceSchema : NeedSchema;
   const aiResponse = await parseSmsToSchema(body, isAResource, city, state, country, zip);
-  const parsedAiResponse = schemaToParse.safeParse(aiResponse);
 
+  const parsedAiResponse = schemaToParse.safeParse(aiResponse);
+  console.log(`\n\naiResponse\n${parsedAiResponse.data}\n\n`);
   if (!parsedAiResponse.success) {
     console.error('Validation errors for Resource:', parsedAiResponse.error.errors);
   } else {
