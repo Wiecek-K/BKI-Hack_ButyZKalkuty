@@ -39,6 +39,7 @@ const potrzeby: Item[] = [
   { id: 8, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
   { id: 9, nazwa: 'Koce ratunkowe', telefon: '601 111 111' },
   { id: 10, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+
 ];
 
 export default function Home() {
@@ -72,9 +73,13 @@ export default function Home() {
   return (
     <div className="text-textgray flex min-h-screen w-full flex-col items-center border bg-neutral-50 pb-4 md:w-[450px]">
       <main className="flex w-full flex-grow flex-col items-start justify-between gap-8 p-4">
+
         <div className="border-lg h-[380px] w-full rounded border">
           <MapComponent />
         </div>
+
+        <div className="border-lg h-[380px] w-full rounded border">mapa</div>
+
 
         <div className="flex w-full flex-grow gap-4">
           <div className="w-1/2">
