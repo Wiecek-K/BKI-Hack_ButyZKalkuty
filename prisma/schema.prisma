@@ -14,3 +14,47 @@ model Widget {
 enum crdb_internal_region {
   gpc_eu_west @map("gcp-europe-west1")
 }
+
+model Resource {
+  id          String           @id @default(cuid())
+  description String
+  category    ResourceCategory
+  location    String?
+  phoneNumber Int
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model Need {
+  id          String           @id @default(cuid())
+  description String
+  category    ResourceCategory
+  location    String?
+  phoneNumber Int
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+enum ResourceCategory {
+  FOOD_AND_WATER
+  MEDICINE
+  CLOTHING_AND_BLANKETS
+  TRANSPORT_AND_LOGISTICS
+  CHEMICALS
+  BUILDING_MATERIALS
+  TOOLS_AND_EQUIPMENT
+  INFORMATION_AND_COMMUNICATION
+  PSYCHOLOGICAL_AND_LEGAL_SUPPORT
+  OTHER
+}
+
+model SmsData {
+  id          String @id @default(cuid())
+  body        String
+  from        String
+  fromCountry String
+  fromState   String
+  fromCity    String
+  fromZip     String
+  receivedAt  DateTime @default(now())
+}

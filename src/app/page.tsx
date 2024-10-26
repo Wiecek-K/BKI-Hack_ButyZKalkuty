@@ -1,7 +1,78 @@
+'use client';
+import { ListItem } from '@/components/ui/ListItem';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { UserButton } from '@clerk/nextjs';
 
-export default async function Home() {
+
+type Item = {
+  id: number;
+  nazwa: string;
+  telefon: string;
+};
+
+const zasoby: Item[] = [
+  {
+    id: 1,
+    nazwa: 'Apteczka pierwszej pomocy',
+    telefon: '600 123 456',
+  },
+  { id: 2, nazwa: 'Koc termiczny', telefon: '600 789 101' },
+  { id: 3, nazwa: 'Apteczka pierwszej pomocy', telefon: '600 112 131' },
+  { id: 4, nazwa: 'Woda butelkowana', telefon: '600 123 456' },
+  { id: 5, nazwa: 'Koc termiczny', telefon: '600 789 101' },
+  { id: 6, nazwa: 'Apteczka pierwszej pomocy', telefon: '600 112 131' },
+  { id: 7, nazwa: 'Woda butelkowana', telefon: '600 123 456' },
+  { id: 8, nazwa: 'Koc termiczny', telefon: '600 789 101' },
+  { id: 9, nazwa: 'Apteczka pierwszej pomocy', telefon: '600 112 131' },
+  { id: 10, nazwa: 'Woda butelkowana', telefon: '600 123 456' },
+  { id: 11, nazwa: 'Koc termiczny', telefon: '600 789 101' },
+  { id: 12, nazwa: 'Apteczka pierwszej pomocy', telefon: '600 112 131' },
+];
+
+const potrzeby: Item[] = [
+  { id: 1, nazwa: 'Koce ratunkowe', telefon: '601 111 111' },
+  { id: 2, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 3, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 4, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 5, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 6, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 7, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 8, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 9, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 10, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 11, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 12, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+];
+
+export default function Home() {
+  const [selectedZasoby, setSelectedZasoby] = useState<Set<number>>(new Set());
+  const [selectedPotrzeby, setSelectedPotrzeby] = useState<Set<number>>(new Set());
+
+  const handleZasobToggle = (id: number) => {
+    setSelectedZasoby((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const handlePotrzebaToggle = (id: number) => {
+    setSelectedPotrzeby((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
   return (
     <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
       <main className="row-start-2 flex flex-col items-center gap-8 sm:items-start">
