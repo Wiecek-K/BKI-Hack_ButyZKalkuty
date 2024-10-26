@@ -5,17 +5,10 @@ import { Phone, Heart } from 'lucide-react';
 
 const Page = () => {
   return (
-    <div className="text-textgray flex min-h-screen w-full flex-col items-center bg-neutral-50 p-4 pb-16 md:w-[500px]">
-      <main className="flex w-full flex-grow flex-col items-center justify-center gap-4">
-        <div className="relative mb-2 overflow-hidden rounded-full bg-blue-50 p-6">
-          <Image
-            src={aidhub}
-            alt="AidHub Logo"
-            width={200}
-            height={200}
-            className="h-auto w-auto p-2 transition-transform duration-300 hover:scale-105"
-            priority
-          />
+    <div className="text-textgray flex min-h-screen w-full flex-col items-center border bg-neutral-50 pb-4 md:w-[450px]">
+      <main className="flex w-full flex-grow flex-col items-start justify-between gap-8 p-4">
+        <div className="border-lg h-[380px] w-full rounded border">
+          <MapComponent />
         </div>
 
         <div className="flex w-full flex-grow gap-4">
