@@ -1,6 +1,9 @@
 'use client';
 import { ListItem } from '@/components/ui/ListItem';
 import React, { useState } from 'react';
+import Image from 'next/image';
+import { UserButton } from '@clerk/nextjs';
+
 
 type Item = {
   id: number;
