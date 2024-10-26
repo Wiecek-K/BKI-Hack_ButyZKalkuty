@@ -20,7 +20,7 @@ export const ListItem: React.FC<Props> = ({ id, title, description, isSelected, 
       onClick={handleItemClick}
     >
       <div className="text-lg text-violet-700">{title}</div>
-      <div className="text-justify">{description}</div>
+      <div className="text-start truncate ...">{description}</div>
     </div>
   );
 };

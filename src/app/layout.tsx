@@ -10,8 +10,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: 'Plan Reakcji',
-  description: 'Twoje wsparcie w każdej sytuacji kryzysowej',
+  title: 'AidHub',
+  description: 'Twoje wsparcie w sytuacji kryzysowej',
 };
 
 export default function RootLayout({

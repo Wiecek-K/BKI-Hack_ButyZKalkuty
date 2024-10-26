@@ -30,12 +30,21 @@ const zasoby: Item[] = [
 const potrzeby: Item[] = [
   { id: 1, nazwa: 'Koce ratunkowe', telefon: '601 111 111' },
   { id: 2, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 3, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 4, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 5, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 6, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 7, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 8, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 9, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 10, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 11, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
+  { id: 12, nazwa: 'Środki opatrunkowe', telefon: '602 222 222' },
 ];
 
 export default function Home() {
   const [selectedZasoby, setSelectedZasoby] = useState<Set<number>>(new Set());
   const [selectedPotrzeby, setSelectedPotrzeby] = useState<Set<number>>(new Set());
-  const [activeTab, setActiveTab] = useState<'zasoby' | 'potrzeby'>('potrzeby');
 
   const handleZasobToggle = (id: number) => {
     setSelectedZasoby((prev) => {
@@ -61,30 +70,15 @@ export default function Home() {
     });
   };
 
-  const handleTabChange = (tab: 'zasoby' | 'potrzeby') => {
-    setActiveTab(tab);
-  };
-
   return (
-    <div className="text-textgray flex min-h-screen w-full flex-col items-center border bg-neutral-50 pb-4 md:w-[450px]">
+    <div className="text-textgray flex min-h-screen w-full flex-col items-center border bg-neutral-50 pb-4 md:w-[500px]">
       <main className="flex w-full flex-grow flex-col items-start justify-between gap-8 p-4">
         <div className="border-lg h-[380px] w-full rounded border">mapa</div>
 
-        <div className="flex w-full flex-grow items-start">
-          <div role="tablist" className="tabs tabs-bordered w-full">
-            <input
-              type="radio"
-              name="my_tabs_1"
-              role="tab"
-              className="tab w-full px-[71px] text-lg"
-              aria-label="Zasoby"
-              checked={activeTab === 'zasoby'}
-              onChange={() => handleTabChange('zasoby')}
-            />
-            <div
-              role="tabpanel"
-              className="tab-content scrollbar-hidden max-h-[370px] overflow-y-auto py-2"
-            >
+        <div className="flex w-full flex-grow gap-4">
+          <div className="w-1/2">
+            <h2 className="mb-2 text-lg font-bold">Zasoby</h2>
+            <div className="scrollbar-hidden max-h-[370px] overflow-y-auto py-2">
               {zasoby.length > 0 ? (
                 zasoby.map((zasob) => (
                   <ListItem
@@ -100,20 +94,11 @@ export default function Home() {
                 <p className="p-16 text-center">Brak dodanych zasobów</p>
               )}
             </div>
+          </div>
 
-            <input
-              type="radio"
-              name="my_tabs_1"
-              role="tab"
-              className="tab w-full px-[71px] text-lg"
-              aria-label="Potrzeby"
-              checked={activeTab === 'potrzeby'}
-              onChange={() => handleTabChange('potrzeby')}
-            />
-            <div
-              role="tabpanel"
-              className="tab-content max-h-1/2 scrollbar-hidden overflow-y-auto py-2"
-            >
+          <div className="w-1/2">
+            <h2 className="mb-2 text-lg font-bold">Potrzeby</h2>
+            <div className="scrollbar-hidden max-h-[370px] overflow-y-auto py-2">
               {potrzeby.length > 0 ? (
                 potrzeby.map((potrzeba) => (
                   <ListItem
@@ -133,7 +118,7 @@ export default function Home() {
         </div>
       </main>
       <button className="button">
-        Zaznaczono: {activeTab === 'zasoby' ? selectedZasoby.size : selectedPotrzeby.size}
+        Zaznaczono zasoby: {selectedZasoby.size}, potrzeby: {selectedPotrzeby.size}
       </button>
     </div>
   );
