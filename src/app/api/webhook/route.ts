@@ -1,16 +1,10 @@
-// app/api/webhook/route.js
-import { NextRequest, NextResponse } from 'next/server';
+// app/api/webhook/route.ts
+import { NextResponse } from 'next/server';
 import querystring from 'querystring';
 
-export const config = {
-    api: {
-        bodyParser: false, // Disable default JSON parsing
-    },
-};
-
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
     // Collect raw data from the request
-    const rawBody = await req.text(); // Use .text() to read the body as a string
+    const rawBody = await req.text(); // Read the body as a string
 
     // Parse the raw body as URL-encoded form data
     const parsedBody = querystring.parse(rawBody);
