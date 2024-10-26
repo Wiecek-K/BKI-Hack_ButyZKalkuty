@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import aidhub from '../components/ui/aidhub.png'
 import { Phone, Heart } from 'lucide-react';
+import Link from 'next/link';
 
 const Page = () => {
   return (
@@ -44,10 +45,12 @@ const Page = () => {
 
         <div className="w-full space-y-4 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
           <p className="text-center text-lg font-medium">Wyślij SMS na numer:</p>
-          <div className="flex items-center justify-center gap-3 rounded-lg bg-white/10 p-4 backdrop-blur-sm">
-            <Phone className="h-6 w-6" />
-            <span className="text-2xl font-bold tracking-wider">123 456 789</span>
-          </div>
+          <a href = "/admin">
+            <div className="flex items-center justify-center gap-3 rounded-lg bg-white/10 p-4 backdrop-blur-sm">
+              <Phone className="h-6 w-6" />
+              <span className="text-2xl font-bold tracking-wider">123 456 789</span>
+            </div>
+          </a>
         </div>
 
         <div className="text-center">
