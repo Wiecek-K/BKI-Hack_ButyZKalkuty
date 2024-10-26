@@ -75,6 +75,10 @@ async function callOpenAIAPI(
   country: string,
   zip: string,
 ) {
+  console.log("\n\n\nTESTTESTTEST\n\n\n");
+  console.log("\n\n\nTESTTESTTEST\n\n\n");
+  console.log("\n\n\nTESTTESTTEST\n\n\n");
+  
   const isAResource = await checkIfItsAResource(body);
   const schemaToParse = isAResource ? ResourceSchema : NeedSchema;
   const aiResponse = await parseSmsToSchema(body, isAResource, city, state, country, zip);
