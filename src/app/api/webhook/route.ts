@@ -54,7 +54,7 @@ export async function POST(req: Request) {
   console.log(`Source ZIP: ${FromZip}`);
   console.log(`API Version: ${ApiVersion}`);
 
-  callOpenAIAPI(
+  await callOpenAIAPI(
     Body?.toString() || 'mam worki z piaskiem do oddania',
     From?.toString() || '123456798',
     FromCity?.toString() || 'nowy jork',
