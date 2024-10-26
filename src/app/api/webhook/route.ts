@@ -1,35 +1,37 @@
 // app/api/webhook/route.ts
+import { checkIfItsAResource, parseSmsToSchema } from '@/actions/ai/gpt';
 import { prisma } from '@/lib/prisma';
+import { NeedSchema, ResourceSchema } from '@/types/zodSchema';
 import { NextResponse } from 'next/server';
 import querystring from 'querystring';
 
 export async function POST(req: Request) {
-    // Collect raw data from the request
-    const rawBody = await req.text(); // Read the body as a string
+  // Collect raw data from the request
+  const rawBody = await req.text(); // Read the body as a string
 
-    // Parse the raw body as URL-encoded form data
-    const parsedBody = querystring.parse(rawBody);
+  // Parse the raw body as URL-encoded form data
+  const parsedBody = querystring.parse(rawBody);
 
-    // Extract relevant fields from Twilio's request
-    const { 
-      Body, 
-      From, 
-      To, 
-      SmsSid, 
-      SmsStatus, 
-      AccountSid, 
-      MessageSid, 
-      NumMedia, 
-      ToCountry,
-      ToState,
-      ToCity,
-      FromCountry,
-      FromState,
-      FromCity,
-      NumSegments,
-      ToZip,
-      FromZip,
-      ApiVersion
+  // Extract relevant fields from Twilio's request
+  const {
+    Body,
+    From,
+    To,
+    SmsSid,
+    SmsStatus,
+    AccountSid,
+    MessageSid,
+    NumMedia,
+    ToCountry,
+    ToState,
+    ToCity,
+    FromCountry,
+    FromState,
+    FromCity,
+    NumSegments,
+    ToZip,
+    FromZip,
+    ApiVersion,
   } = parsedBody;
 
   // Process the extracted data as needed
@@ -51,16 +53,38 @@ export async function POST(req: Request) {
   console.log(`Source ZIP: ${FromZip}`);
   console.log(`API Version: ${ApiVersion}`);
 
+  callOpenAIAPI(
+    Body?.toString() || 'mam worki z piaskiem do oddania',
+    From?.toString() || '123456798',
+    FromCity?.toString() || 'nowy jork',
+    FromState?.toString() || 'nowy jork',
+    FromCountry?.toString() || 'polska',
+    FromZip?.toString() || '69-666',
+  );
 
-  callOpenAIAPI(Body?.toString() || "", From?.toString() || "", To?.toString() || "", SmsSid?.toString() || "", SmsStatus?.toString() || "");
-
-
-    // Return a 200 OK response to Twilio to acknowledge receipt
-    return NextResponse.json({ message: 'SMS received' }, { status: 200 });
+  // Return a 200 OK response to Twilio to acknowledge receipt
+  return NextResponse.json({ message: 'SMS received' }, { status: 200 });
 }
 
+async function callOpenAIAPI(
+  body: string,
+  from: string,
+  city: string,
+  state: string,
+  country: string,
+  zip: string,
+) {
+  const isAResource = await checkIfItsAResource(body);
+  const schemaToParse = isAResource ? ResourceSchema : NeedSchema;
+  const aiResponse = await parseSmsToSchema(body, isAResource, city, state, country, zip);
+  const parsedAiResponse = schemaToParse.safeParse(aiResponse);
 
-async function callOpenAIAPI(body: string, from: string, to: string, smsSid: string, smsStatus: string) {
+  if (!parsedAiResponse.success) {
+    console.error('Validation errors for Resource:', parsedAiResponse.error.errors);
+  } else {
+    console.log('Resource data is valid:', parsedAiResponse.data);
+  }
 
 
+  
 }

@@ -1,6 +1,7 @@
 import { generateText, generateObject } from 'ai';
 import { gptModel } from '@/lib/aisdk';
 import { boolean, z } from 'zod';
+import { prisma } from '@/lib/prisma';
 
 export const generateTextWithGpt = async ({
   system,
@@ -67,7 +68,37 @@ export const checkIfItsAResource = async (smsBody: string): Promise<boolean> => 
 
     const { object } = response;
 
-    // Assuming 'object' is the returned JSON that we need to validate
+    const parsedData = resourceSchema.parse(object); // Validate the object against the schema
+
+    return parsedData.isAResource; // Return the boolean value
+  } catch (error) {
+    console.error('Error checking resource:', error);
+    return false; // Return false in case of an error
+  }
+};
+
+
+export const parseSmsToSchema = async (smsBody: string, isResource: boolean, city: string, state: string, country: string, zip: string): Promise<boolean> => {
+  try {
+    const response = await generateObject({
+      model: gptModel,
+      schema: isResource ? prisma.resource : prisma.need,
+      messages: [
+        {
+          role: 'system',
+          content: `You work as part of a natural disaster relief force.
+          You will be provided with some data received via an sms. Your job is to read it and 
+          SMS text: "${smsBody}"
+          Source city: "${city}"
+          Source state: "${state}"
+          Source country: "${country}"
+          Source ZIP: "${zip}"`,
+        },
+      ],
+    });
+
+    const { object } = response;
+
     const parsedData = resourceSchema.parse(object); // Validate the object against the schema
 
     return parsedData.isAResource; // Return the boolean value
