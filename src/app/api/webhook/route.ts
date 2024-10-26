@@ -1,5 +1,6 @@
 // app/api/webhook/route.ts
 import { checkIfItsAResource, parseSmsToSchema } from '@/actions/ai/gpt';
+import { addResource } from '@/actions/resourceNeedHandler';
 import { prisma } from '@/lib/prisma';
 import { NeedSchema, ResourceSchema } from '@/types/zodSchema';
 import { NextResponse } from 'next/server';
@@ -83,6 +84,11 @@ async function callOpenAIAPI(
     console.error('Validation errors for Resource:', parsedAiResponse.error.errors);
   } else {
     console.log('Resource data is valid:', parsedAiResponse.data);
+
+    if(isAResource){
+      await addResource(parsedAiResponse.data)
+    }
+
   }
 
 

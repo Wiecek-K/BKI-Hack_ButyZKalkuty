@@ -2,6 +2,7 @@ import { generateText, generateObject } from 'ai';
 import { gptModel } from '@/lib/aisdk';
 import { boolean, z } from 'zod';
 import { prisma } from '@/lib/prisma';
+import { NeedSchema, ResourceSchema } from '@/types/zodSchema';
 
 export const generateTextWithGpt = async ({
   system,
@@ -79,10 +80,11 @@ export const checkIfItsAResource = async (smsBody: string): Promise<boolean> => 
 
 
 export const parseSmsToSchema = async (smsBody: string, isResource: boolean, city: string, state: string, country: string, zip: string): Promise<boolean> => {
+
   try {
     const response = await generateObject({
       model: gptModel,
-      schema: isResource ? prisma.resource : prisma.need,
+      schema: isResource ? ResourceSchema : NeedSchema,
       messages: [
         {
           role: 'system',

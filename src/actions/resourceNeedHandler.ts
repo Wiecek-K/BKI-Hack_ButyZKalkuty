@@ -1,9 +1,9 @@
 import { prisma } from '@/lib/prisma';
-import { ResourceCategory } from '@prisma/client';
-
+// import { ResourceCategory } from '@prisma/client';
+import { ResourceCategoryEnum} from '../types/zodSchema'
 export async function addResource(data: {
   description: string;
-  category: ResourceCategory;
+  category: typeof ResourceCategoryEnum;
   location?: string;
   contactInfo: { name: string; phone: string };
   phoneNumber: number;
@@ -21,7 +21,7 @@ export async function addResource(data: {
 
 export async function addNeed(data: {
   description: string;
-  category: ResourceCategory;
+  category: typeof ResourceCategoryEnum;
   location?: string;
   contactInfo: { name: string; phone: string };
   phoneNumber: number;
